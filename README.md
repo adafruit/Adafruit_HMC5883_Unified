@@ -1,12 +1,12 @@
-#Adafruit HMC5883 Driver (3-Axis Magnetometer) #
+#Adafruit HMC5883L Driver (3-Axis Magnetometer) #
 
-This driver is for the Adafruit HMC5883 Breakout (http://www.adafruit.com/products/1120), and is based on Adafruit's Unified Sensor Library (Adafruit_Sensor).
+This driver is for the Adafruit HMC5883L Breakout (http://www.adafruit.com/products/1746), and is based on Adafruit's Unified Sensor Library (Adafruit_Sensor).
 
 ## About the HMC5883 ##
 
-The HMC58833 is a digital (I2C) compass (magnetometer).  The magnetometer measure magnetic force, which is useful to detect magnetic north.
+The HMC5883L is a digital (I2C) compass (magnetometer).  The magnetometer measure magnetic force, which is useful to detect magnetic north.
 
-More information on the HMC5883 can be found in the datasheet: http://www.adafruit.com/datasheets/LSM303DLHC.PDF
+More information on the HMC5883L can be found in the datasheet: http://www.adafruit.com/datasheets/HMC5883L_3-Axis_Digital_Compass_IC.pdf
 
 ## What is the Adafruit Unified Sensor Library? ##
 
