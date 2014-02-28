@@ -242,7 +242,7 @@ void Adafruit_HMC5883_Unified::getSensor(sensor_t *sensor) {
   sensor->sensor_id   = _sensorID;
   sensor->type        = SENSOR_TYPE_MAGNETIC_FIELD;
   sensor->min_delay   = 0;
-  sensor->max_value   = 0.0F; // TBD
-  sensor->min_value   = 0.0F; // TBD
-  sensor->resolution  = 0.0F; // TBD
+  sensor->max_value   = 800; // 8 gauss == 800 microTesla
+  sensor->min_value   = -800; // -8 gauss == -800 microTesla
+  sensor->resolution  = 0.2; // 2 milligauss == 0.2 microTesla
 }
