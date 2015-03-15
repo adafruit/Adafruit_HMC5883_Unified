@@ -96,7 +96,7 @@ class Adafruit_HMC5883_Unified : public Adafruit_Sensor
   
     bool begin(void);
     void setMagGain(hmc5883MagGain gain);
-    void getEvent(sensors_event_t*);
+    bool getEvent(sensors_event_t*);
     void getSensor(sensor_t*);
 
   private:
