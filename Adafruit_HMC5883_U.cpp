@@ -210,7 +210,7 @@ void Adafruit_HMC5883_Unified::setMagGain(hmc5883MagGain gain)
     @brief  Gets the most recent sensor event
 */
 /**************************************************************************/
-void Adafruit_HMC5883_Unified::getEvent(sensors_event_t *event) {
+bool Adafruit_HMC5883_Unified::getEvent(sensors_event_t *event) {
   /* Clear the event */
   memset(event, 0, sizeof(sensors_event_t));
 
@@ -224,6 +224,8 @@ void Adafruit_HMC5883_Unified::getEvent(sensors_event_t *event) {
   event->magnetic.x = _magData.x / _hmc5883_Gauss_LSB_XY * SENSORS_GAUSS_TO_MICROTESLA;
   event->magnetic.y = _magData.y / _hmc5883_Gauss_LSB_XY * SENSORS_GAUSS_TO_MICROTESLA;
   event->magnetic.z = _magData.z / _hmc5883_Gauss_LSB_Z * SENSORS_GAUSS_TO_MICROTESLA;
+  
+  return true;
 }
 
 /**************************************************************************/
