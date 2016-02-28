@@ -102,7 +102,7 @@ class Adafruit_HMC5883_Unified : public Adafruit_Sensor
     Adafruit_HMC5883_Unified(int32_t sensorID = -1, int timeoutSeconds = 120);
   
     bool begin(void);
-    void setMagGain(hmc5883MagGain gain);
+    bool setMagGain(hmc5883MagGain gain);
     bool getEvent(sensors_event_t*);
     void getSensor(sensor_t*);
 
@@ -112,7 +112,7 @@ class Adafruit_HMC5883_Unified : public Adafruit_Sensor
     int32_t         _sensorID;
     int             _readTimeoutSeconds;
     
-    void write8(byte address, byte reg, byte value);
+    bool write8(byte address, byte reg, byte value);
     byte read8(byte address, byte reg);
     bool read(void);
 };

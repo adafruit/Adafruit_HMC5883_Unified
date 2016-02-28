@@ -45,17 +45,32 @@ static float _hmc5883_Gauss_LSB_Z  = 980.0F;   // Varies with gain
     @brief  Abstract away platform differences in Arduino wire library
 */
 /**************************************************************************/
-void Adafruit_HMC5883_Unified::write8(byte address, byte reg, byte value)
+bool Adafruit_HMC5883_Unified::write8(byte address, byte reg, byte value)
 {
   Wire.beginTransmission(address);
   #if ARDUINO >= 100
-    Wire.write((uint8_t)reg);
-    Wire.write((uint8_t)value);
+    if(Wire.write((uint8_t)reg)==1)
+    {
+      if(Wire.write((uint8_t)value)==1) {
+        if(Wire.endTransmission()==0)
+        {
+          return true;
+        }
+      }
+    }
   #else
-    Wire.send(reg);
-    Wire.send(value);
+    if(Wire.send(reg)==1)
+    {
+      if(Wire.send(value)==1)
+      {
+        if(Wire.endTransmission()==0)
+        {
+          return true;
+        }
+      }
+    }
   #endif
-  Wire.endTransmission();
+  return false;
 }
 
 /**************************************************************************/
@@ -166,12 +181,15 @@ bool Adafruit_HMC5883_Unified::begin()
   Wire.begin();
 
   // Enable the magnetometer
-  write8(HMC5883_ADDRESS_MAG, HMC5883_REGISTER_MAG_MR_REG_M, 0x00);
-  
-  // Set the gain to a known level
-  setMagGain(HMC5883_MAGGAIN_1_3);
-
-  return true;
+  if(write8(HMC5883_ADDRESS_MAG, HMC5883_REGISTER_MAG_MR_REG_M, 0x00))
+  {
+    // Set the gain to a known level
+    if(setMagGain(HMC5883_MAGGAIN_1_3))
+	{
+	  return true;
+	}
+  }
+  return false;
 }
 
 /**************************************************************************/
@@ -179,43 +197,45 @@ bool Adafruit_HMC5883_Unified::begin()
     @brief  Sets the magnetometer's gain
 */
 /**************************************************************************/
-void Adafruit_HMC5883_Unified::setMagGain(hmc5883MagGain gain)
+bool Adafruit_HMC5883_Unified::setMagGain(hmc5883MagGain gain)
 {
-  write8(HMC5883_ADDRESS_MAG, HMC5883_REGISTER_MAG_CRB_REG_M, (byte)gain);
-  
-  _magGain = gain;
+  if(write8(HMC5883_ADDRESS_MAG, HMC5883_REGISTER_MAG_CRB_REG_M, (byte)gain)) {
+    _magGain = gain;
  
-  switch(gain)
-  {
-    case HMC5883_MAGGAIN_1_3:
-      _hmc5883_Gauss_LSB_XY = 1100;
-      _hmc5883_Gauss_LSB_Z  = 980;
-      break;
-    case HMC5883_MAGGAIN_1_9:
-      _hmc5883_Gauss_LSB_XY = 855;
-      _hmc5883_Gauss_LSB_Z  = 760;
-      break;
-    case HMC5883_MAGGAIN_2_5:
-      _hmc5883_Gauss_LSB_XY = 670;
-      _hmc5883_Gauss_LSB_Z  = 600;
-      break;
-    case HMC5883_MAGGAIN_4_0:
-      _hmc5883_Gauss_LSB_XY = 450;
-      _hmc5883_Gauss_LSB_Z  = 400;
-      break;
-    case HMC5883_MAGGAIN_4_7:
-      _hmc5883_Gauss_LSB_XY = 400;
-      _hmc5883_Gauss_LSB_Z  = 255;
-      break;
-    case HMC5883_MAGGAIN_5_6:
-      _hmc5883_Gauss_LSB_XY = 330;
-      _hmc5883_Gauss_LSB_Z  = 295;
-      break;
-    case HMC5883_MAGGAIN_8_1:
-      _hmc5883_Gauss_LSB_XY = 230;
-      _hmc5883_Gauss_LSB_Z  = 205;
-      break;
-  } 
+    switch(gain)
+    {
+      case HMC5883_MAGGAIN_1_3:
+        _hmc5883_Gauss_LSB_XY = 1100;
+        _hmc5883_Gauss_LSB_Z  = 980;
+        break;
+      case HMC5883_MAGGAIN_1_9:
+        _hmc5883_Gauss_LSB_XY = 855;
+        _hmc5883_Gauss_LSB_Z  = 760;
+        break;
+      case HMC5883_MAGGAIN_2_5:
+        _hmc5883_Gauss_LSB_XY = 670;
+        _hmc5883_Gauss_LSB_Z  = 600;
+        break;
+      case HMC5883_MAGGAIN_4_0:
+        _hmc5883_Gauss_LSB_XY = 450;
+        _hmc5883_Gauss_LSB_Z  = 400;
+        break;
+      case HMC5883_MAGGAIN_4_7:
+        _hmc5883_Gauss_LSB_XY = 400;
+        _hmc5883_Gauss_LSB_Z  = 255;
+        break;
+      case HMC5883_MAGGAIN_5_6:
+        _hmc5883_Gauss_LSB_XY = 330;
+        _hmc5883_Gauss_LSB_Z  = 295;
+        break;
+      case HMC5883_MAGGAIN_8_1:
+        _hmc5883_Gauss_LSB_XY = 230;
+        _hmc5883_Gauss_LSB_Z  = 205;
+        break;
+    }
+	return true;
+  }
+  return false;
 }
 
 /**************************************************************************/
