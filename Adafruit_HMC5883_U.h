@@ -102,6 +102,7 @@ class Adafruit_HMC5883_Unified : public Adafruit_Sensor
     Adafruit_HMC5883_Unified(int32_t sensorID = -1);
   
     bool begin(void);
+    bool begin(TwoWire &w);
     void setMagGain(hmc5883MagGain gain);
     bool getEvent(sensors_event_t*);
     void getSensor(sensor_t*);
@@ -110,6 +111,7 @@ class Adafruit_HMC5883_Unified : public Adafruit_Sensor
     hmc5883MagGain   _magGain;
     hmc5883MagData   _magData;     // Last read magnetometer data will be available here
     int32_t         _sensorID;
+    TwoWire         *_wire;
     
     void write8(byte address, byte reg, byte value);
     byte read8(byte address, byte reg);
