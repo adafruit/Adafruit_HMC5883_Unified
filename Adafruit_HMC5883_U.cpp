@@ -108,12 +108,8 @@ void Adafruit_HMC5883_Unified::read() {
 #else
   Wire.send(HMC5883_REGISTER_MAG_OUT_X_H_M);
 #endif
-  Wire.endTransmission();
-  Wire.requestFrom((byte)HMC5883_ADDRESS_MAG, (byte)6);
-
-  // Wait around until enough data is available
-  while (Wire.available() < 6)
-    ;
+  Wire.endTransmission(false);
+  Wire.requestFrom((byte)HMC5883_ADDRESS_MAG, (byte)6, true);
 
 // Note high before low (different than accel)
 #if ARDUINO >= 100
