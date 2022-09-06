@@ -44,7 +44,7 @@
 
 static float _hmc5883_Gauss_LSB_XY = 1100.0F; // Varies with gain
 static float _hmc5883_Gauss_LSB_Z = 980.0F;   // Varies with gain
-
+TwoWire Wi2c = TwoWire(0);
 /***************************************************************************
  MAGNETOMETER
  ***************************************************************************/
@@ -58,15 +58,15 @@ static float _hmc5883_Gauss_LSB_Z = 980.0F;   // Varies with gain
 */
 /**************************************************************************/
 void Adafruit_HMC5883_Unified::write8(byte address, byte reg, byte value) {
-  Wire.beginTransmission(address);
+  Wi2c.beginTransmission(address);
 #if ARDUINO >= 100
-  Wire.write((uint8_t)reg);
-  Wire.write((uint8_t)value);
+  Wi2c.write((uint8_t)reg);
+  Wi2c.write((uint8_t)value);
 #else
-  Wire.send(reg);
-  Wire.send(value);
+  Wi2c.send(reg);
+  Wi2c.send(value);
 #endif
-  Wire.endTransmission();
+  Wi2c.endTransmission();
 }
 
 /**************************************************************************/
@@ -77,20 +77,20 @@ void Adafruit_HMC5883_Unified::write8(byte address, byte reg, byte value) {
 byte Adafruit_HMC5883_Unified::read8(byte address, byte reg) {
   byte value;
 
-  Wire.beginTransmission(address);
+  Wi2c.beginTransmission(address);
 #if ARDUINO >= 100
-  Wire.write((uint8_t)reg);
+  Wi2c.write((uint8_t)reg);
 #else
-  Wire.send(reg);
+  Wi2c.send(reg);
 #endif
-  Wire.endTransmission();
-  Wire.requestFrom(address, (byte)1);
+  Wi2c.endTransmission();
+  Wi2c.requestFrom(address, (byte)1);
 #if ARDUINO >= 100
-  value = Wire.read();
+  value = Wi2c.read();
 #else
-  value = Wire.receive();
+  value = Wi2c.receive();
 #endif
-  Wire.endTransmission();
+  Wi2c.endTransmission();
 
   return value;
 }
@@ -102,30 +102,30 @@ byte Adafruit_HMC5883_Unified::read8(byte address, byte reg) {
 /**************************************************************************/
 void Adafruit_HMC5883_Unified::read() {
   // Read the magnetometer
-  Wire.beginTransmission((byte)HMC5883_ADDRESS_MAG);
+  Wi2c.beginTransmission((byte)HMC5883_ADDRESS_MAG);
 #if ARDUINO >= 100
-  Wire.write(HMC5883_REGISTER_MAG_OUT_X_H_M);
+  Wi2c.write(HMC5883_REGISTER_MAG_OUT_X_H_M);
 #else
-  Wire.send(HMC5883_REGISTER_MAG_OUT_X_H_M);
+  Wi2c.send(HMC5883_REGISTER_MAG_OUT_X_H_M);
 #endif
-  Wire.endTransmission(false);
-  Wire.requestFrom((byte)HMC5883_ADDRESS_MAG, (byte)6, true);
+  Wi2c.endTransmission(false);
+  Wi2c.requestFrom((byte)HMC5883_ADDRESS_MAG, (byte)6, true);
 
 // Note high before low (different than accel)
 #if ARDUINO >= 100
-  uint8_t xhi = Wire.read();
-  uint8_t xlo = Wire.read();
-  uint8_t zhi = Wire.read();
-  uint8_t zlo = Wire.read();
-  uint8_t yhi = Wire.read();
-  uint8_t ylo = Wire.read();
+  uint8_t xhi = Wi2c.read();
+  uint8_t xlo = Wi2c.read();
+  uint8_t zhi = Wi2c.read();
+  uint8_t zlo = Wi2c.read();
+  uint8_t yhi = Wi2c.read();
+  uint8_t ylo = Wi2c.read();
 #else
-  uint8_t xhi = Wire.receive();
-  uint8_t xlo = Wire.receive();
-  uint8_t zhi = Wire.receive();
-  uint8_t zlo = Wire.receive();
-  uint8_t yhi = Wire.receive();
-  uint8_t ylo = Wire.receive();
+  uint8_t xhi = Wi2c.receive();
+  uint8_t xlo = Wi2c.receive();
+  uint8_t zhi = Wi2c.receive();
+  uint8_t zlo = Wi2c.receive();
+  uint8_t yhi = Wi2c.receive();
+  uint8_t ylo = Wi2c.receive();
 #endif
 
   // Shift values to create properly formed integer (low byte first)
@@ -159,9 +159,10 @@ Adafruit_HMC5883_Unified::Adafruit_HMC5883_Unified(int32_t sensorID) {
     @brief  Setups the HW
 */
 /**************************************************************************/
-bool Adafruit_HMC5883_Unified::begin() {
+bool Adafruit_HMC5883_Unified::begin(TwoWire *wire) {
+  Wi2c = *wire;
   // Enable I2C
-  Wire.begin();
+  Wi2c.begin();
 
   // Enable the magnetometer
   write8(HMC5883_ADDRESS_MAG, HMC5883_REGISTER_MAG_MR_REG_M, 0x00);
