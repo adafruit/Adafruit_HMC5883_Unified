@@ -102,14 +102,14 @@ byte Adafruit_HMC5883_Unified::read8(byte address, byte reg) {
 /**************************************************************************/
 void Adafruit_HMC5883_Unified::read() {
   // Read the magnetometer
-  Wire.beginTransmission((byte)HMC5883_ADDRESS_MAG);
+  Wire.beginTransmission(HMC5883_ADDRESS_MAG);
 #if ARDUINO >= 100
   Wire.write(HMC5883_REGISTER_MAG_OUT_X_H_M);
 #else
   Wire.send(HMC5883_REGISTER_MAG_OUT_X_H_M);
 #endif
   Wire.endTransmission(false);
-  Wire.requestFrom((byte)HMC5883_ADDRESS_MAG, (byte)6, true);
+  Wire.requestFrom(HMC5883_ADDRESS_MAG, 6, 1);
 
 // Note high before low (different than accel)
 #if ARDUINO >= 100
@@ -159,9 +159,13 @@ Adafruit_HMC5883_Unified::Adafruit_HMC5883_Unified(int32_t sensorID) {
     @brief  Setups the HW
 */
 /**************************************************************************/
-bool Adafruit_HMC5883_Unified::begin() {
+bool Adafruit_HMC5883_Unified::begin(uint8_t sda, uint8_t scl) {
   // Enable I2C
-  Wire.begin();
+  if (sda != 0 && scl != 0) {
+    Wire.begin(sda, scl); // Initialize Wire with custom SDA and SCL pins if provided
+  } else {
+    Wire.begin(); // Initialize Wire with default pins if custom pins are not provided
+  }
 
   // Enable the magnetometer
   write8(HMC5883_ADDRESS_MAG, HMC5883_REGISTER_MAG_MR_REG_M, 0x00);
