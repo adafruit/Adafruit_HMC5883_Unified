@@ -81,7 +81,7 @@ public:
    */
   Adafruit_HMC5883_Unified(int32_t sensorID = -1);
 
-  bool begin(uint8_t sda = 0, uint8_t scl = 0); //!< @return Returns whether connection was successful
+  bool begin(uint8_t sda = 0, uint8_t scl = 0); //!< @return Returns whether connection was successful 
   void setMagGain(hmc5883MagGain gain); //!< @param gain Desired magnetic gain
   bool
   getEvent(sensors_event_t *); //!< @return Returns the most recent sensor event

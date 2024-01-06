@@ -164,7 +164,7 @@ bool Adafruit_HMC5883_Unified::begin(uint8_t sda, uint8_t scl) {
   if (sda != 0 && scl != 0) {
     Wire.begin(sda, scl); // Initialize Wire with custom SDA and SCL pins if provided
   } else {
-    Wire.begin(); // Initialize Wire with default pins if custom pins are not provided
+    Wire.begin(); // Initialize Wire with default pins if custom pins are not provided 
   }
 
   // Enable the magnetometer
