@@ -2,6 +2,8 @@
 
 This driver is for the Adafruit HMC5883L Breakout (http://www.adafruit.com/products/1746), and is based on Adafruit's Unified Sensor Library (Adafruit_Sensor).
 
+It supports the use of custom SDA and SCL pins. use `mag.begin(SDA_PIN, SCL_PIN)` for custom pins, or use `mag.begin()` to use default Wire pins for your MCU
+
 ## About the HMC5883 ##
 
 The HMC5883L is a digital (I2C) compass (magnetometer).  The magnetometer measure magnetic force, which is useful to detect magnetic north.
