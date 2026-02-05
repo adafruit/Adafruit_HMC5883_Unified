@@ -183,34 +183,34 @@ void Adafruit_HMC5883_Unified::setMagGain(hmc5883MagGain gain) {
   _magGain = gain;
 
   switch (gain) {
-  case HMC5883_MAGGAIN_1_3:
-    _hmc5883_Gauss_LSB_XY = 1100;
-    _hmc5883_Gauss_LSB_Z = 980;
-    break;
-  case HMC5883_MAGGAIN_1_9:
-    _hmc5883_Gauss_LSB_XY = 855;
-    _hmc5883_Gauss_LSB_Z = 760;
-    break;
-  case HMC5883_MAGGAIN_2_5:
-    _hmc5883_Gauss_LSB_XY = 670;
-    _hmc5883_Gauss_LSB_Z = 600;
-    break;
-  case HMC5883_MAGGAIN_4_0:
-    _hmc5883_Gauss_LSB_XY = 450;
-    _hmc5883_Gauss_LSB_Z = 400;
-    break;
-  case HMC5883_MAGGAIN_4_7:
-    _hmc5883_Gauss_LSB_XY = 400;
-    _hmc5883_Gauss_LSB_Z = 255;
-    break;
-  case HMC5883_MAGGAIN_5_6:
-    _hmc5883_Gauss_LSB_XY = 330;
-    _hmc5883_Gauss_LSB_Z = 295;
-    break;
-  case HMC5883_MAGGAIN_8_1:
-    _hmc5883_Gauss_LSB_XY = 230;
-    _hmc5883_Gauss_LSB_Z = 205;
-    break;
+    case HMC5883_MAGGAIN_1_3:
+      _hmc5883_Gauss_LSB_XY = 1100;
+      _hmc5883_Gauss_LSB_Z = 980;
+      break;
+    case HMC5883_MAGGAIN_1_9:
+      _hmc5883_Gauss_LSB_XY = 855;
+      _hmc5883_Gauss_LSB_Z = 760;
+      break;
+    case HMC5883_MAGGAIN_2_5:
+      _hmc5883_Gauss_LSB_XY = 670;
+      _hmc5883_Gauss_LSB_Z = 600;
+      break;
+    case HMC5883_MAGGAIN_4_0:
+      _hmc5883_Gauss_LSB_XY = 450;
+      _hmc5883_Gauss_LSB_Z = 400;
+      break;
+    case HMC5883_MAGGAIN_4_7:
+      _hmc5883_Gauss_LSB_XY = 400;
+      _hmc5883_Gauss_LSB_Z = 255;
+      break;
+    case HMC5883_MAGGAIN_5_6:
+      _hmc5883_Gauss_LSB_XY = 330;
+      _hmc5883_Gauss_LSB_Z = 295;
+      break;
+    case HMC5883_MAGGAIN_8_1:
+      _hmc5883_Gauss_LSB_XY = 230;
+      _hmc5883_Gauss_LSB_Z = 205;
+      break;
   }
 }
 
@@ -219,7 +219,7 @@ void Adafruit_HMC5883_Unified::setMagGain(hmc5883MagGain gain) {
     @brief  Gets the most recent sensor event
 */
 /**************************************************************************/
-bool Adafruit_HMC5883_Unified::getEvent(sensors_event_t *event) {
+bool Adafruit_HMC5883_Unified::getEvent(sensors_event_t* event) {
   /* Clear the event */
   memset(event, 0, sizeof(sensors_event_t));
 
@@ -245,7 +245,7 @@ bool Adafruit_HMC5883_Unified::getEvent(sensors_event_t *event) {
     @brief  Gets the sensor_t data
 */
 /**************************************************************************/
-void Adafruit_HMC5883_Unified::getSensor(sensor_t *sensor) {
+void Adafruit_HMC5883_Unified::getSensor(sensor_t* sensor) {
   /* Clear the sensor_t object */
   memset(sensor, 0, sizeof(sensor_t));
 
