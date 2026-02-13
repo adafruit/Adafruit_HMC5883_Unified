@@ -75,7 +75,7 @@ typedef struct hmc5883MagData_s {
 
 //! Unified sensor driver for the magnetometer ///
 class Adafruit_HMC5883_Unified : public Adafruit_Sensor {
-public:
+ public:
   /*!
    * @param sensorID sensor ID, -1 by default
    */
@@ -83,11 +83,11 @@ public:
 
   bool begin(void); //!< @return Returns whether connection was successful
   void setMagGain(hmc5883MagGain gain); //!< @param gain Desired magnetic gain
-  bool
-  getEvent(sensors_event_t *); //!< @return Returns the most recent sensor event
-  void getSensor(sensor_t *);
+  bool getEvent(
+      sensors_event_t*); //!< @return Returns the most recent sensor event
+  void getSensor(sensor_t*);
 
-private:
+ private:
   hmc5883MagGain _magGain;
   hmc5883MagData _magData; // Last read magnetometer data will be available here
   int32_t _sensorID;
